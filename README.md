@@ -4,11 +4,11 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 
 main challenges:
 
-- lenovo by default disabled S3 sleeping state in favor of `modern standby` for the windows. moreover, lenovo hid/removed BIOS settings for switching it back. I couldn't make the newest kernel 6.8.0 to work with this `modern` standby. so the other solution for normal everyday computer use was to use hibernation, sleeping state S4
+- lenovo by default disabled S3 sleeping state in favor of `modern standby` for the windows. moreover, lenovo hid/removed BIOS settings for switching it back. I couldn't make the newest kernel 6.8.0 work with this `modern standby`. so the other solution for normal everyday computer use was to use hibernation, sleeping state S4
 
 - because of the bug in 24.04 it is not possible to use encrypted swap file for hibernation. swap file must be changed for an encrypted swap partition https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/2057687
 
-- all partitions except fot the boot, must be encrypted with LUKS. including swap, that is used for hibernation.
+- all partitions except for the boot, must be encrypted with LUKS. including swap, that is used for hibernation.
 
 - secure boot must be disabled in order to have hibernation and gpu passthrough working. this is a security risk, as it potentially gives an opportunity to decrypt the disks that are taken out and connected to another machine. (to do: look into recompiling the kernel to disable lockdown to keep the secure boot)
 
