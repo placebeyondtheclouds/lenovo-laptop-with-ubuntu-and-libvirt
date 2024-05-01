@@ -215,7 +215,7 @@ main challenges:
   - `conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia -y`
   - test it with `python -c "import torch; print(torch.__version__); out = torch.fft.rfft(torch.randn(1000).cuda()); print(out.sum()); print(torch.cuda.device_count()); print(torch.version.cuda) ; print(torch.backends.cudnn.version()); print(torch.cuda.get_arch_list())"`
 
-- trim problem
+- sparse volumes problem
   - the disk images are sparse (thin-provisioning), and will display full allocated space (ls -lh .) instead of actual space on disk (du -sh .). it is possible to compress the image save space and at the same time make displayed space reflect actual volume size (although compressed).
     - `mv ubuntu22.04.qcow2 ubuntu22.04-old.qcow2`
     - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
