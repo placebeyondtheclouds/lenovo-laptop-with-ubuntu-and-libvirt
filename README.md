@@ -200,6 +200,7 @@ main challenges:
 - disable all display scaling in VM settings and in guest display options, install gnome-tweaks and set font scale to 1.5
 
 - install conda, Pytorch with CUDA
+
   - `mkdir ~/miniconda3`
   - `wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py311_24.1.2-0-Linux-x86_64.sh -O ~/miniconda.sh`
   - `bash ~/miniconda.sh -b -u -p ~/miniconda3`
@@ -212,3 +213,10 @@ main challenges:
   - `conda activate pytorch_env`
   - `conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia -y`
   - test it with `python -c "import torch; print(torch.__version__); out = torch.fft.rfft(torch.randn(1000).cuda()); print(out.sum()); print(torch.cuda.device_count()); print(torch.version.cuda) ; print(torch.backends.cudnn.version()); print(torch.cuda.get_arch_list())"`
+
+- trim problem
+  - it is possible to compress the image to save space
+    - `mv ubuntu22.04.qcow2 ubuntu22.04-old.qcow2`
+    - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
+    - `sudo chown libvirt-qemu:kvm ubuntu22.04.qcow2`
+    - `rm ubuntu22.04-old.qcow2`
