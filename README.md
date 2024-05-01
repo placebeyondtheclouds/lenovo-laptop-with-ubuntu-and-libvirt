@@ -180,10 +180,11 @@ main challenges:
 
 ### Ubuntu 22.04 VM guest
 
-- create VM, x86_64, manually add SCSI disk and set discard to unmap, BEFORE starting install edit the XML and verify that disk discard='unmap' detect_zeroes='unmap' bus=scsi. controller must be set to virtio-scsi. all this is to enable `fstrim -a -v` in the guest working correctly and actually having the effect.
-- add PCI host device on the address 32:00.0 from before (the NVIDIA GPU)
+- create VM, x86_64, manually add SCSI disk and set discard to unmap, BEFORE starting install edit the XML and verify that disk discard='unmap' detect_zeroes='unmap' bus=scsi. begin installation, power off the VM, in XML set SCSI controller 0 settings to type='scsi' model='virtio-scsi'. insert iso back into the cdrom and restore the boot order starting from cdrom. all this is to enable `fstrim -a -v` in the guest working correctly and actually having the effect.
+- add PCI host device on the address 32:00.0 from before (the NVIDIA GPU). start vm.
 - regular install
 - after VM reboots:
+  - `fstrim -a -v`
   - `sudo apt install qemu-guest-agent`
   - `sudo systemctl enable --now qemu-guest-agent`
   - `sudo apt install spice-vdagent`
