@@ -12,6 +12,10 @@ main challenges:
 
 - secure boot must be disabled in order to have hibernation and gpu passthrough working. this is a security risk, as it potentially gives an opportunity to decrypt the disks that are taken out and connected to another machine. (to do: look into recompiling the kernel to disable lockdown to keep the secure boot)
 
+**current problems:**
+
+- if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot
+
 ## install ubuntu, initial setup and swap settings
 
 - change bios settings to enable S4
@@ -178,27 +182,27 @@ main challenges:
 
 ## set up VMs
 
-### Ubuntu 22.04 VM guest
+### Ubuntu 22.04 server VM guest
 
-- create VM, x86_64, manually add SCSI disk and set discard to unmap, BEFORE starting install (it can also be done after installing the guest) edit the XML and verify that disk discard='unmap' detect_zeroes='unmap' bus=scsi. begin installation, power off the VM, in XML set SCSI controller 0 settings to type='scsi' model='virtio-scsi'. insert iso back into the cdrom and restore the boot order starting from cdrom. all this is to enable `fstrim -a -v` in the guest working correctly and actually having the effect.
-- add PCI host device on the address 32:00.0 from before (the NVIDIA GPU). start vm.
-- regular install
-- after VM reboots:
+- create VM, x86_64, manually add SCSI disk and set discard to unmap, add PCI host device on the address 32:00.0 from before (the NVIDIA GPU).
+- regular install, reboot, shutdown
+- edit the XML and verify that disk discard='unmap' detect_zeroes='unmap' bus=scsi. set SCSI controller 0 settings to type='scsi' model='virtio-scsi'. all this is to enable TRIM in the guest working correctly and actually having the effect.
+- start the VM:
   - `fstrim -a -v`
+  - `sudo apt update`
   - `sudo apt install qemu-guest-agent`
   - `sudo systemctl enable --now qemu-guest-agent`
   - `sudo apt install spice-vdagent`
   - `reboot`
 - install NVIDIA drivers WITHOUT CUDA
-  - `sudo apt install ubuntu-drivers-common nvtop`
+
+  - `sudo apt install ubuntu-drivers-common` should be already installed
   - `sudo ubuntu-drivers devices`
   - `sudo apt install nvidia-driver-545`
   - `reboot`
   - `nvidia-smi --query-gpu=compute_cap --format=csv`
   - `modinfo nvidia`
-  - `nvtop`
-- stop the VM, change video to QXL, edit the XML to set vgamem to 65536, otherwise there will be freezes on high resolutions
-- disable all display scaling in VM settings and in guest display options, install gnome-tweaks and set font scale to 1.5
+  - `nvidia-smi`
 
 - install conda, Pytorch with CUDA
 
@@ -221,3 +225,10 @@ main challenges:
     - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
     - `sudo chown libvirt-qemu:kvm ubuntu22.04.qcow2`
     - `rm ubuntu22.04-old.qcow2`
+
+### Ubuntu 22.04 desktop VM guest
+
+all of the above, plus
+
+- stop the VM, edit video QXL part of the XML to set vgamem to 65536, otherwise there will be freezes on high resolutions
+- disable all display scaling in VM settings and in guest display options, install gnome-tweaks and set font scale to 1.5
