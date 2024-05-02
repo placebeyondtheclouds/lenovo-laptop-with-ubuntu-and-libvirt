@@ -47,10 +47,14 @@ main challenges:
   - `sudo rm /swap.img`
   - add options for swap to the grub
     - `sudo nano /etc/default/grub`
-      - `GRUB_CMDLINE_LINUX_DEFAULT="resume=/dev/mapper/ubuntu--vg-swaplv"`
+      - ```
+        GRUB_CMDLINE_LINUX_DEFAULT="resume=/dev/mapper/ubuntu--vg-swaplv"
+        ```
   - add resume option
     - `sudo nano /etc/initramfs-tools/conf.d/resume`
-      - `RESUME=/dev/mapper/ubuntu--vg-swaplv`
+      - ```
+        RESUME=/dev/mapper/ubuntu--vg-swaplv
+        ```
   - `sudo update-initramfs -k all -u && sudo update-grub`
   - `reboot`
   - test hibernation with `sudo systemctl hibernate`, at this point it should work
@@ -158,7 +162,9 @@ main challenges:
 
 - `sudo update-initramfs -u -k all`
 - `sudo nano /etc/default/grub`
-  - `GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt resume=/dev/mapper/ubuntu--vg-swaplv vfio-pci.ids=10de:28a1"`
+  - ```
+    GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt resume=/dev/mapper/ubuntu--vg-swaplv vfio-pci.ids=10de:28a1"
+    ```
 - `sudo update-grub`
 - `reboot`
 - `lspci -n -v -s 32:00.0`
