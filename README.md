@@ -219,16 +219,17 @@ main challenges:
   - `conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia -y`
   - test it with `python -c "import torch; print(torch.__version__); out = torch.fft.rfft(torch.randn(1000).cuda()); print(out.sum()); print(torch.cuda.device_count()); print(torch.version.cuda) ; print(torch.backends.cudnn.version()); print(torch.cuda.get_arch_list())"`
 
-- sparse volumes problem
-  - the disk images are sparse (thin-provisioning), and will display full allocated space (ls -lh .) instead of actual space on disk (du -sh .). it is possible to compress the image save space and at the same time make displayed space reflect actual volume size (although compressed).
-    - `mv ubuntu22.04.qcow2 ubuntu22.04-old.qcow2`
-    - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
-    - `sudo chown libvirt-qemu:kvm ubuntu22.04.qcow2`
-    - `rm ubuntu22.04-old.qcow2`
-
 ### Ubuntu 22.04 desktop VM guest
 
 all of the above, plus
 
 - stop the VM, edit video QXL part of the XML to set vgamem to 65536, otherwise there will be freezes on high resolutions
 - disable all display scaling in VM settings and in guest display options, install gnome-tweaks and set font scale to 1.5
+
+## sparse volumes problem
+
+- QEMU disk images are sparse (thin-provisioning), and will display full allocated space (ls -lh .) instead of actual space on disk (du -sh .). it is possible to compress the image save space and at the same time make displayed space reflect actual volume size (although compressed).
+  - `mv ubuntu22.04.qcow2 ubuntu22.04-old.qcow2`
+  - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
+  - `sudo chown libvirt-qemu:kvm ubuntu22.04.qcow2`
+  - `rm ubuntu22.04-old.qcow2`
