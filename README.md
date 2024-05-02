@@ -16,11 +16,11 @@ main challenges:
 
 - if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot.
 
-## install ubuntu, initial setup and swap settings
+## install ubuntu 24.04 desktop host, initial setup and swap settings
 
 - change bios settings to enable S4
 
-  - use the code to enter the engineering version of lenovo BIOS setup
+  - use the code to enter the service version of lenovo BIOS setup
     - https://www.reddit.com/r/Lenovo/comments/zq3tc5/how_to_disable_modern_sleep_and_enable_s3_sleep/
     - under advanced, ACPI settings, disable acpi autoconfig, enable hibernation
 
@@ -45,9 +45,9 @@ main challenges:
   - `sudo swapon -a`
   - `swapon --show` or `free -m`
   - `sudo rm /swap.img`
-  - add options for swap and iommu (needed later) to the grub
+  - add options for swap to the grub
     - `sudo nano /etc/default/grub`
-      - `GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on resume=/dev/mapper/ubuntu--vg-swaplv"`
+      - `GRUB_CMDLINE_LINUX_DEFAULT="resume=/dev/mapper/ubuntu--vg-swaplv"`
   - add resume option
     - `sudo nano /etc/initramfs-tools/conf.d/resume`
       - `RESUME=/dev/mapper/ubuntu--vg-swaplv`
@@ -151,12 +151,15 @@ main challenges:
 - `nano /etc/modprobe.d/vfio.conf` fill the ID from above
 
   - ```
-    softdep nouveau pre: vfio-pci
-    softdep nvidia pre: vfio-pci
+    softdep nouveau pre: vfio vfio-pci
+    softdep nvidia pre: vfio vfio-pci
     options vfio-pci ids=10de:28a1
     ```
 
 - `sudo update-initramfs -u -k all`
+- `sudo nano /etc/default/grub`
+  - `GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt resume=/dev/mapper/ubuntu--vg-swaplv vfio-pci.ids=10de:28a1"`
+- `sudo update-grub`
 - `reboot`
 - `lspci -n -v -s 32:00.0`
   - verify it reports: Kernel driver in use: vfio-pci
