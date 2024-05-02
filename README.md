@@ -14,7 +14,7 @@ main challenges:
 
 **current problems:**
 
-- if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot
+- if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot.
 
 ## install ubuntu, initial setup and swap settings
 
@@ -53,7 +53,7 @@ main challenges:
       - `RESUME=/dev/mapper/ubuntu--vg-swaplv`
   - `sudo update-initramfs -k all -u && sudo update-grub`
   - `reboot`
-  - test hibernation with `sudo systemctl hibernate`, at this point it should work. pause all guests before going into the hibernation, just in case. if a guest freezes after the host wakes up from the hibernation, send Shut Down signal once to the guest to wake it up from the freeze https://bugzilla.redhat.com/show_bug.cgi?id=1223541
+  - test hibernation with `sudo systemctl hibernate`, at this point it should work
 
 ## continue setting up the hibernation
 
