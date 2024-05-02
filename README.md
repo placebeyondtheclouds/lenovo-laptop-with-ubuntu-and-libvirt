@@ -72,7 +72,7 @@ main challenges:
     HandleLidSwitchExternalPower=hibernate
     HandleLidSwitchDocked=hibernate
     ```
-- optionally, enable automatic power profile switching, based on https://kobusvs.co.za/blog/power-profile-switching/
+- optionally, enable automatic power profile switching, original code from https://kobusvs.co.za/blog/power-profile-switching/
 
   - `sudo apt install inotify-tools`
 
@@ -179,6 +179,7 @@ main challenges:
   - `gnome-tweaks` and set font scale to 1.5 for retina displays
   - open Settings app > Power, turn automatic brightness off
   - `lsusb -v` check recognized USB devices
+  - `lspci -nnk` check loaded drivers
 
 ## install QEMU
 
@@ -237,7 +238,7 @@ all of the above, plus
 
 ## sparse volumes problem
 
-- QEMU disk images are sparse (thin-provisioning), and will display full allocated space (ls -lh .) instead of actual space on disk (du -sh .). it is possible to compress the image save space and at the same time make displayed space reflect actual volume size (although compressed).
+- QEMU disk images are sparse (thin-provisioning), and will display full allocated space (ls -lh .) instead of actual space on disk (du -sh .). it is possible to compress the image save space and at the same time make displayed space reflect actual volume size (although compressed). https://forums.unraid.net/topic/150854-trim-with-linux-guest-for-minimal-img-file/
   - `mv ubuntu22.04.qcow2 ubuntu22.04-old.qcow2`
   - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
   - `sudo chown libvirt-qemu:kvm ubuntu22.04.qcow2`
