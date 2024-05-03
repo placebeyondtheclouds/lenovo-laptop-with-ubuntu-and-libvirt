@@ -14,7 +14,7 @@ main challenges:
 
 **current problems:**
 
-- if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot.
+- _must shut down guests with GPU passthrough before host hibernation._ if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot.
 
 ## install ubuntu 24.04 desktop host, initial setup and swap settings
 
@@ -110,16 +110,16 @@ main challenges:
       profile=$AC_PROFILE
       fi
 
-            # set the new profile
-            if [[ $prev != "$profile" ]]; then
-                echo setting power profile to $profile
-                powerprofilesctl set $profile
-            fi
+      # set the new profile
+      if [[ $prev != "$profile" ]]; then
+          echo setting power profile to $profile
+          powerprofilesctl set $profile
+      fi
 
-            prev=$profile
+      prev=$profile
 
-            # wait for the next power change event
-            inotifywait -qq "$BAT_STATUS" "$BAT_CAP"
+      # wait for the next power change event
+      inotifywait -qq "$BAT_STATUS" "$BAT_CAP"
 
       done
 
@@ -175,7 +175,8 @@ main challenges:
   - must report that KVM acceleration can be used
   - `sensors` verify that sensors have readings
   - `gufw` enable firewall and set up rules
-  - `timeshift` create initial backup to another volume
+  - `timeshift` create initial system backup to another volume
+  - `deja-dup` create incremental backups later
   - `gnome-tweaks` and set font scale to 1.5 for retina displays
   - open Settings app > Power, turn automatic brightness off
   - `lsusb -v` check recognized USB devices
