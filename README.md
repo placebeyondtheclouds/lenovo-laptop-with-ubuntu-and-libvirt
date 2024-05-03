@@ -14,32 +14,35 @@ main challenges:
 
 **current problems:**
 
-- _must shut down guests with GPU passthrough before host hibernation._ if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, guest requires a reboot.
+- _must shut down guests with GPU passthrough before host hibernation._ if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, the guest would require a reboot.
 
 ## install ubuntu 24.04 desktop host, initial setup and swap settings
 
-- change bios settings to enable S4
+- change bios settings to enable S4 (there is no option for S3)
 
   - use the code to enter the service version of lenovo BIOS setup
     - https://www.reddit.com/r/Lenovo/comments/zq3tc5/how_to_disable_modern_sleep_and_enable_s3_sleep/
-    - under advanced, ACPI settings, disable acpi autoconfig, enable hibernation
+    - under advanced, ACPI settings, disable acpi autoconfig, _enable hibernation_
 
 - make bootable pendrive with https://github.com/ventoy/Ventoy
-- download https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/noble/ubuntu-24.04-desktop-amd64.iso and put into the root of the pendrive
+- download https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/noble/ubuntu-24.04-desktop-amd64.iso and put into the root of the pendrive (or from https://mirrors.aliyun.com/ubuntu-cdimage/)
 - install choosing `encrypted, LVM`
-- reboot into live cd again to resize logical volume for the root partition on the encrypted volume group, then add another logical volume for the new swap partition
+  - set one of the mirrors
+    - https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
+    - https://mirrors.aliyun.com/ubuntu/
+- reboot into live cd again to resize the logical volume for the root partition on the encrypted volume group, then add another logical volume for the new swap partition
   - press ctrl alt t
-  - `lsblk`
+  - `lsblk` look for the name of the last partition
   - `cryptsetup open /dev/nvme0n1p3 crypt` it will ask for the passphrase
   - `lsblk`
-  - `lvresize --verbose --resizefs -L -96G /dev/mapper/ubuntu--vg-ubuntu--lv` # 150% of RAM size because there might be some funny fringe case involving video memory
+  - `lvresize --verbose --resizefs -L -96G /dev/mapper/ubuntu--vg-ubuntu--lv` # free 150% of RAM size for the new swap partition, because there might be some funny fringe case involving video memory that would require more space on disk than the size of the actual RAM
   - `sudo e2fsck -f /dev/mapper/ubuntu--vg-ubuntu--lv`
   - `sudo lvdisplay`
   - `sudo lvm lvcreate ubuntu-vg -n swaplv -L 96G`
   - `reboot`
 - boot into the installed system, change swap file for swap partition
   - `swapon --show`
-  - `ls /dev/mapper`
+  - `ls /dev/mapper` find the exact name of the mapper
   - `sudo mkswap /dev/mapper/ubuntu--vg-swaplv`
   - `sudo nano /etc/fstab` -` /dev/mapper/ubuntu--vg-swaplv   none    swap    sw      0       0`
   - `sudo swapon -a`
