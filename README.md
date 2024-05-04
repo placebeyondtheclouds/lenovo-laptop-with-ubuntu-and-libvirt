@@ -66,7 +66,7 @@ main challenges:
 
 - verify that the BIOS is set up correctly and S4 is present
   - `sudo dmesg | grep "(supports"`
-    - `ACPI: PM: (supports S0 S4 S5)`
+    - ACPI: PM: (supports S0 **S4** S5)
 - `sudo nano /etc/systemd/logind.conf`
   - ```
     HandlePowerKey=hibernate
@@ -175,7 +175,7 @@ main challenges:
 - `sudo dmesg | grep -e DMAR -e IOMMU` - all must be present
 - `sudo apt install cpu-checker lm-sensors gufw nmon timeshift gnome-tweaks`
   - `kvm-ok`
-  - must report that KVM acceleration can be used
+    - must report that KVM acceleration can be used
   - `sensors` verify that sensors have readings
   - `gufw` enable firewall and set up rules
   - `timeshift` create initial system backup to another volume
@@ -242,7 +242,7 @@ all of the above, plus
 
 ## sparse volumes problem
 
-- QEMU disk images are sparse (thin-provisioning), and will display full allocated space (ls -lh .) instead of actual space on disk (du -sh .). it is possible to compress the image save space and at the same time make displayed space reflect actual volume size (although compressed). https://forums.unraid.net/topic/150854-trim-with-linux-guest-for-minimal-img-file/
+- QEMU disk images are sparse (thin-provisioning), and will display full allocated space (`ls -lh .`) instead of actual space on disk (`du -sh .`). it is possible to compress the image to save space and at the same time make displayed space reflect actual volume size (although compressed). https://forums.unraid.net/topic/150854-trim-with-linux-guest-for-minimal-img-file/
   - `mv ubuntu22.04.qcow2 ubuntu22.04-old.qcow2`
   - `qemu-img convert -c -O qcow2 ubuntu22.04-old.qcow2 ubuntu22.04.qcow2`
   - `sudo chown libvirt-qemu:kvm ubuntu22.04.qcow2`
