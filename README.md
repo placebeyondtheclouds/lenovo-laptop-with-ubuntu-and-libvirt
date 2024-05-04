@@ -190,9 +190,9 @@ main challenges:
 - `sudo apt install qemu-system qemu-kvm virt-manager bridge-utils`
 - `sudo useradd -g $USER libvirt && sudo useradd -g $USER kvm && sudo useradd -g $USER libvirt-kvm`
 - `reboot`
-- import old images and xml (/etc/libvirt/qemu/)
-- set permissions to VM disk store `sudo chown libvirt-qemu:kvm ~/images -R && sudo chmod 774 ~/images -R`
-- run `virt-manager` and in the preferences enable XML editing
+- import old images and xml, put xml to /etc/libvirt/qemu/
+  - if making a new VM disk store, set permissions to the directory `sudo chown libvirt-qemu:kvm ~/images -R && sudo chmod 774 ~/images -R && sudo chmod g+s ~/images`
+- run `virt-manager` and enable XML editing in the preferences
 
 ## set up VMs
 
