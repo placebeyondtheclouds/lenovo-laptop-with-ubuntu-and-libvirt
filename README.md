@@ -223,7 +223,8 @@ main challenges:
   - `mkdir ~/miniconda3`
   - `wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py311_24.1.2-0-Linux-x86_64.sh -O ~/miniconda.sh`
   - `bash ~/miniconda.sh -b -u -p ~/miniconda3`
-  - `exit`
+  - `~/miniconda3/bin/conda init bash`
+  - `. .bashrc` it's the same as `source .bashrc`, to load the variables into the current session
   - `conda config --set show_channel_urls yes`
   - `nano ~/.condarc` and replace it with content from https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/
   - `pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple`
