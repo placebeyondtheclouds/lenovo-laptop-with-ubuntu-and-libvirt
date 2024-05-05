@@ -128,7 +128,7 @@ main challenges:
 
       ```
 
-    - `sudo chmod +x /home/$USER/powerswitch.sh`
+    - `sudo chmod u+x /home/$USER/powerswitch.sh`
     - `sudo nano /home/$USER/.config/systemd/user/power-monitor.service`
 
       - ```
