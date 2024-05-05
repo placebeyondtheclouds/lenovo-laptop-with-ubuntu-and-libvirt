@@ -79,7 +79,7 @@ main challenges:
 
   - `sudo apt install inotify-tools`
 
-  - `nano /root/powerswitch.sh`
+  - `nano /home/$USER/powerswitch.sh`
 
     - ```
       #! /bin/bash
@@ -128,20 +128,29 @@ main challenges:
 
       ```
 
-    - `sudo chmod +x /root/powerswitch.sh`
-    - `sudo nano /etc/systemd/system/power-monitor.service`
+    - `sudo chmod +x /home/$USER/powerswitch.sh`
+    - `sudo nano /home/$USER/.config/systemd/user/power-monitor.service`
 
       - ```
+        [Unit]
+        Description=power profile switch
+        After=network.target
+
         [Service]
+        Type=simple
         Environment=STARTUP_WAIT=30s
-        ExecStart=/root/powerswitch.sh
+        ExecStart=/home/xxx/powerswitch.sh
 
         [Install]
         WantedBy=default.target
         ```
 
-    - `sudo chmod 644 /etc/systemd/system/power-monitor.service`
-    - `sudo systemctl enable --now power-monitor.service`
+    - replace xxx with actual username
+      - `sed -i "s/xxx/$(whoami)/g" /home/$USER/.config/systemd/user/power-monitor.service`
+    - `sudo systemctl daemon-reload`
+    - `sudo chmod 644 /home/$USER/.config/systemd/user/power-monitor.service`
+    - `systemctl --user enable --now power-monitor.service`
+    - `systemctl --user status power-monitor.service`
 
 ## continue to set up QEMU/KVM
 
