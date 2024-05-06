@@ -129,7 +129,7 @@ main challenges:
       ```
 
     - `sudo chmod u+x /home/$USER/powerswitch.sh`
-    - `sudo nano /home/$USER/.config/systemd/user/power-monitor.service`
+    - `nano /home/$USER/.config/systemd/user/power-monitor.service`
 
       - ```
         [Unit]
@@ -145,12 +145,16 @@ main challenges:
         WantedBy=default.target
         ```
 
-    - replace xxx with actual username
+    - replace xxx with the actual username
       - `sed -i "s/xxx/$(whoami)/g" /home/$USER/.config/systemd/user/power-monitor.service`
     - `sudo systemctl daemon-reload`
-    - `sudo chmod 644 /home/$USER/.config/systemd/user/power-monitor.service`
+    - `chmod 644 /home/$USER/.config/systemd/user/power-monitor.service`
+    - `sudo loginctl enable-linger $USER`
+      - disable with `sudo loginctl disable-linger $USER`
+      - status: `ls /var/lib/systemd/linger`
     - `systemctl --user enable --now power-monitor.service`
     - `systemctl --user status power-monitor.service`
+    - `journalctl --user-unit power-monitor.service -f` to get live status updates
 
 ## continue to set up QEMU/KVM
 
