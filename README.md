@@ -212,7 +212,7 @@ main challenges:
 ### Ubuntu 22.04 server VM guest
 
 - create VM, x86_64, manually add disk, "customize configuration before install", set bus to SCSI, set discard to unmap, add PCI host device on the address 32:00.0 from before (the NVIDIA GPU).
-- regular install, reboot, shutdown
+- normal install, reboot, shutdown
 - edit the XML and verify that disk discard='unmap' detect_zeroes='unmap' bus=scsi. set SCSI controller 0 settings to type='scsi' model='virtio-scsi'. all this is to enable TRIM in the guest working correctly and actually having the effect.
 - start the VM:
   - `fstrim -a -v`
