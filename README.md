@@ -10,11 +10,16 @@ main challenges:
 
 - all partitions except for the boot, must be encrypted with LUKS. including swap, that is used for hibernation.
 
-- secure boot must be disabled in order to have hibernation and gpu passthrough working. this is a security risk, as it potentially gives an opportunity to decrypt the disks that are taken out and connected to another machine. (to do: look into recompiling the kernel to disable lockdown to keep the secure boot)
+- secure boot must be disabled in order to have hibernation and gpu passthrough working. this is a security risk, as it potentially gives an opportunity to decrypt the disks that are taken out and connected to another machine.
 
 **current problems:**
 
 - _must shut down guests with GPU passthrough before host hibernation._ if Ubuntu guest VM with GPU passthrough was running when host went to hibernation, the GPU in the guest is not working correctly after host wakes up from hibernation, the guest would require a reboot.
+
+## To do
+
+- [ ] Change the virtualization from VM/libvirt GUI with PCIe GPU passthrough to GPU-enabled LXCs using lxc-utils and [KasmVNC](https://github.com/kasmtech/KasmVNC)
+- [ ] Look into recompiling the kernel to disable lockdown to keep the secure boot
 
 ## install ubuntu 24.04 desktop host, initial setup and swap settings
 
