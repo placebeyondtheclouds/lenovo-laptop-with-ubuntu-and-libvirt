@@ -18,7 +18,7 @@ main challenges:
 
 ## To do
 
-- [ ] Change the virtualization from VM/libvirt GUI with PCIe GPU passthrough to GPU-enabled LXCs using lxc-utils and [KasmVNC](https://github.com/kasmtech/KasmVNC)
+- [ ] Change the virtualization from VM with PCIe GPU passthrough and libvirt GUI to GPU-enabled LXCs using lxc-utils and [KasmVNC](https://github.com/kasmtech/KasmVNC)
 - [ ] Look into recompiling the kernel to disable lockdown to keep the secure boot
 
 ## install ubuntu 24.04 desktop host, initial setup and swap settings
