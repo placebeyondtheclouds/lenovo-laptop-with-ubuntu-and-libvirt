@@ -1,8 +1,24 @@
 # Ubuntu on a Lenovo Thinkbook laptop
 
-My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a hypervisor for QEMU/KVM virtualization with GPU passthrough
+My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a hypervisor for QEMU/KVM virtualization with GPU passthrough to guests and hibernation.
 
-main challenges:
+## hardware:
+
+- [联想 ThinkBook 16+ 2024 AI 酷睿办公笔记本电脑 Ultra5 125H 16G 512GB RTX4050](https://bp.lenovo.com/Product/ProductDetails/34415?productType=4&channelProductType=0)
+- swapped the installed 16GB RAM for Crucial DDR5 5600 32GB (two modules)
+- swapped the installed 512GB SSD for Samsung 980 Pro 2TB and added a second Crucial T500 2TB
+
+## end result:
+
+- Ubuntu 24.04 host with encrypted LUKS partitions, hibernation, and GPU passthrough to guests
+- guest VMs running in Virtual Machine Manager with (one at a time) and without NVIDIA GPU passthrough, Intel Arc Graphics (MTL) GPU for the video output.
+
+## hardware upgrade notes:
+
+- must wait around 5 minutes after adding the new RAM and turning on the laptop for the first time. It will play dead for around 5 minutes and then will turn on by itself.
+- setting up hiberbation requires entering the engineering bios mode using a special code (below)
+
+## main challenges:
 
 - lenovo by default disabled S3 sleeping state in favor of `modern standby` for the windows. moreover, lenovo hid/removed BIOS settings for switching it back. I couldn't make the newest kernel 6.8.0 work with this `modern standby`. so the other solution for normal everyday computer use was to use hibernation, sleeping state S4
 
@@ -26,11 +42,24 @@ main challenges:
 - change bios settings to enable S4 (there is no option for S3)
 
   - use the code to enter the service version of lenovo BIOS setup
+
     - https://www.reddit.com/r/Lenovo/comments/zq3tc5/how_to_disable_modern_sleep_and_enable_s3_sleep/
+
+      - if the page gets 404ed:
+        - shut down the laptop, enter the following sequence, turn on the laptop and enter BIOS by pressing DEL
+        - ```
+          F1 1 Q A Z
+          F2 2 W S X
+          F3 3 E D C
+          F4 4 R F V
+          F5 5 T G B
+          F6 6 Y H N
+          ```
+
     - under advanced, ACPI settings, disable acpi autoconfig, _enable hibernation_
 
-- make bootable pendrive with https://github.com/ventoy/Ventoy
-- download https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/noble/ubuntu-24.04-desktop-amd64.iso and put into the root of the pendrive (or from https://mirrors.aliyun.com/ubuntu-cdimage/)
+- download https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/noble/ubuntu-24.04-desktop-amd64.iso (or from https://mirrors.aliyun.com/ubuntu-cdimage/)
+- create a bootable USB stick or copy to my [hardware CD-ROM emulator](https://github.com/placebeyondtheclouds/rpi-cdrom-emulator-build) and boot
 - install choosing `encrypted, LVM`
   - set one of the mirrors
     - https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
