@@ -7,6 +7,8 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 - [联想 ThinkBook 16+ 2024 AI 酷睿办公笔记本电脑 Ultra5 125H 16G 512GB RTX4050](https://bp.lenovo.com/Product/ProductDetails/34415?productType=4&channelProductType=0)
 - swapped the installed 16GB RAM for Crucial DDR5 5600 32GB (two modules)
 - swapped the installed 512GB SSD for Samsung 980 Pro 2TB and added a second Crucial T500 2TB
+  - also added copper heatsinks for the SSDs
+    <br><a href="./2024-04-27%2020.04.46.jpg"><img src="./2024-04-27%2020.04.46.jpg" alt="heatsink" width="30%"></a>
 
 ## end result:
 
