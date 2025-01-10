@@ -1,4 +1,4 @@
-# Linux GPU laptop setup for data science and software development
+# Linux GPU laptop setup for data science and software development (2024)
 
 My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a hypervisor for QEMU/KVM virtualization with GPU passthrough to guests and hibernation.
 
