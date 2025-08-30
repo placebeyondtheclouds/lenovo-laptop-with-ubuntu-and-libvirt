@@ -192,6 +192,31 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
     - `systemctl --user status power-monitor.service`
     - `journalctl --user-unit power-monitor.service -f` to get live status updates
 
+## limit battery charge to 60%
+
+- `sudo apt install tlp`
+- ```bash
+  sudo tee /etc/tlp.d/01-my-charge-thresh.conf <<EOF
+  STOP_CHARGE_THRESH_BAT0=1
+  EOF
+  ```
+- `sudo systemctl restart tlp`
+- `sudo tlp-stat -b` to check the status, should be:
+
+  - ```
+    +++ Battery Care
+    Plugin: lenovo
+    Supported features: charge threshold
+    Driver usage:
+    * vendor (ideapad_laptop) = active (charge threshold)
+    Parameter value range:
+    * STOP_CHARGE_THRESH_BAT0: 0(off), 1(on) -- battery conservation mode
+
+    /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode = 1 (60%)
+    ```
+
+- revert to 100% by changing the value to 0 and restarting tlp
+
 ## continue to set up QEMU/KVM
 
 - `nano /etc/modules`
