@@ -198,16 +198,7 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 
 - to monitor the battery or change the parameters, there is another option: `sudo apt install tlp`
 
-- `sudo tlp-stat -b` to check the status, should be:
-
-- if needed, change parameters with:
-  - ```bash
-    sudo tee /etc/tlp.d/01-my-charge-thresh.conf <<EOF
-    STOP_CHARGE_THRESH_BAT0=1
-    STOP_CHARGE_THRESH_BAT1=1
-    EOF
-    ```
-  - `sudo systemctl restart tlp`
+- `sudo tlp-stat -b` to check the status:
 
 ## continue to set up QEMU/KVM
 
