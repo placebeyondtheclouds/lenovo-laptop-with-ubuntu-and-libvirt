@@ -200,6 +200,10 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 
 - `sudo tlp-stat -b` to check the status:
 
+## control CPU frequency and governor to save battery
+
+- `sudo apt install cpupower-gui` and select ALL CPUS
+
 ## continue to set up QEMU/KVM
 
 - `nano /etc/modules`
