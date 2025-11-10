@@ -194,7 +194,7 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 
 ## limit battery charge to 80%
 
-- `sudo apt install gnome-shell-extension-manager`, then install `battery-health-charging` [extension](https://maniacx.github.io/Battery-Health-Charging/device-compatibility/lenovo)
+- `sudo apt install gnome-shell-extension-manager`, then install `battery-health-charging` [extension](https://maniacx.github.io/Battery-Health-Charging/device-compatibility/lenovo). run [the script](https://raw.githubusercontent.com/maniacx/Battery-Health-Charging/Documentation/battery-health-charging-resources/downloads/bhc_patch.zip) that fixes [polkit bug](https://maniacx.github.io/Battery-Health-Charging/polkitbug) if necessary. other useful monitoring extensions are [tophat](https://extensions.gnome.org/extension/5219/tophat/) and [bluetooth-battery-meter](https://extensions.gnome.org/extension/6670/bluetooth-battery-meter/)
 
 - to monitor the battery or change the parameters, there is another option: `sudo apt install tlp`
 
