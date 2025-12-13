@@ -200,9 +200,34 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 
 - `sudo tlp-stat -b` to check the status:
 
+## other extensions
+
+- download https://github.com/ubuntu/gnome-shell-extension-appindicator/releases and then `gnome-extensions install xxxxxx.zip`
+
 ## control CPU frequency and governor to save battery
 
 - `sudo apt install cpupower-gui` and select ALL CPUS
+
+## Chinese and Japanese input
+
+```shell
+sudo apt install fcitx5-mozc fcitx5-config-qt fcitx5-pinyin fcitx5-chinese-addons
+sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
+sudo fc-cache -f -v
+sudo apt install im-config
+im-config -n fcitx5
+reboot
+```
+
+run `fcitx5-configtool` and add `mozc` and `pinyin` in the settings. optionally, install https://extensions.gnome.org/extension/261/kimpanel/
+
+## network firewall
+
+- `sudo apt install gufw`
+
+## application firewall
+
+- download https://github.com/evilsocket/opensnitch/releases and `sudo apt install ./opensnitch*.deb ./python3-opensnitch-ui*.deb`, then `sudo systemctl enable --now opensnitch.service`. also need to add [this](https://github.com/ubuntu/gnome-shell-extension-appindicator)
 
 ## continue to set up QEMU/KVM
 
