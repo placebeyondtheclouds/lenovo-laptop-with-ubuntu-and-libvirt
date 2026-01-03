@@ -290,8 +290,8 @@ run `fcitx5-configtool` and add `mozc` and `pinyin` in the settings. optionally,
 - start the VM:
   - `fstrim -a -v`
   - `sudo apt update`
-  - `sudo apt install qemu-guest-agent`
-  - `sudo systemctl enable --now qemu-guest-agent`
+  - ~~`sudo apt install qemu-guest-agent`~~ not needed. and there are problems with clipboard stop working
+  - ~~`sudo systemctl enable --now qemu-guest-agent`~~
   - `sudo apt install spice-vdagent`
   - `reboot`
 - install NVIDIA drivers WITHOUT CUDA
