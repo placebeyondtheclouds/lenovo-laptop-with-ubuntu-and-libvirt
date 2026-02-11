@@ -42,11 +42,8 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 ## install ubuntu 24.04 desktop host, initial setup and swap settings
 
 - change bios settings to enable S4 (there is no option for S3)
-
   - use the code to enter the service version of lenovo BIOS setup
-
     - https://www.reddit.com/r/Lenovo/comments/zq3tc5/how_to_disable_modern_sleep_and_enable_s3_sleep/
-
       - if the page gets 404ed:
         - shut down the laptop, enter the following sequence, turn on the laptop and enter BIOS by pressing DEL
         - ```
@@ -112,11 +109,9 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
     HandleLidSwitchDocked=hibernate
     ```
 - optionally, enable automatic power profile switching, original code from https://kobusvs.co.za/blog/power-profile-switching/
-
   - `sudo apt install inotify-tools`
 
   - `nano /home/$USER/powerswitch.sh`
-
     - ```
       #! /bin/bash
 
@@ -166,7 +161,6 @@ My notes on how to set up a lenovo thinkbook gen6 laptop with ubuntu 24.04 as a 
 
     - `sudo chmod u+x /home/$USER/powerswitch.sh`
     - `nano /home/$USER/.config/systemd/user/power-monitor.service`
-
       - ```
         [Unit]
         Description=power profile switch
@@ -242,7 +236,6 @@ run `fcitx5-configtool` and add `mozc` and `pinyin` in the settings. optionally,
 - `lspci -nn | grep 'NVIDIA'` note the address on the PCIe bus
 - `lspci -n -v -s 32:00.0` note the ID
 - `nano /etc/modprobe.d/vfio.conf` fill the ID from above
-
   - ```
     softdep nouveau pre: vfio vfio-pci
     softdep nvidia pre: vfio vfio-pci
@@ -284,7 +277,7 @@ run `fcitx5-configtool` and add `mozc` and `pinyin` in the settings. optionally,
 
 ### Ubuntu 22.04 server VM guest
 
-- create VM, x86_64, manually add disk, "customize configuration before install", set bus to SCSI, set discard to unmap, add PCI host device on the address 32:00.0 from before (the NVIDIA GPU).
+- create VM, x86_64, manually add disk, "customize configuration before install", set bus to SCSI, set discard to unmap, add PCI host device on the address 32:00.0 from before (the NVIDIA GPU). set cpu mode="host-passthrough" since there is no need to consider migration to a different cpu.
 - normal install, reboot, shutdown
 - edit the XML and verify that disk discard='unmap' detect_zeroes='unmap' bus=scsi. set SCSI controller 0 settings to type='scsi' model='virtio-scsi'. all this is to enable TRIM in the guest working correctly and actually having the effect.
 - start the VM:
@@ -295,7 +288,6 @@ run `fcitx5-configtool` and add `mozc` and `pinyin` in the settings. optionally,
   - `sudo apt install spice-vdagent`
   - `reboot`
 - install NVIDIA drivers WITHOUT CUDA
-
   - `sudo apt install ubuntu-drivers-common` should be already installed
   - `sudo ubuntu-drivers devices`
   - `sudo apt install nvidia-driver-545`
@@ -305,7 +297,6 @@ run `fcitx5-configtool` and add `mozc` and `pinyin` in the settings. optionally,
   - `nvidia-smi`
 
 - install conda, Pytorch with CUDA
-
   - `mkdir ~/miniconda3`
   - `wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py311_24.1.2-0-Linux-x86_64.sh -O ~/miniconda.sh`
   - `bash ~/miniconda.sh -b -u -p ~/miniconda3`
